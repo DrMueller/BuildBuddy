@@ -6,10 +6,6 @@ import { VssBuild } from '../models';
 import { VssUserService } from '../services/vss-user.service';
 import { VssNativeHandler } from '../infrastructure';
 
-// import * as tra from 'TFS/Build/RestClient';
-// import * as tra2 from 'VSS/VSS';
-
-
 @Injectable()
 export class VssBuildService {
   private readonly WEBPORTAL_BUILD_ID = 7;
@@ -18,44 +14,52 @@ export class VssBuildService {
 
   constructor(private vssUserService: VssUserService) { }
 
-  public getLastBuildsForCurrentUser(maxItems: number, callback: Action<VssBuild[]>) {
-    const currentUserIdentifier = this.vssUserService.getCurrentUser().uniqueName;
-
-    this.requireClient((cp: any) => {
+  public getLastBuildsForCurrentUser(maxItems: number): Promise<VssBuild[]> {
+    return this.requireClient().then((cp: any) => {
       const client = cp.getClient();
-
-      const nativeBuilds = client.getBuilds(this.PROJECT_NAME,
-        null, null, null, null, null,
-        currentUserIdentifier,
-        null, null, null, null, null,
-        null, null, null, null, 3);
-
-      const buildsQuery = nativeBuilds.then(builds => {
-        const maps = builds.map(b => {
-          const build = new VssBuild();
-          build.requestForUserIdentifier = b.requestedFor.uniqueName;
-          build.status = b.status;
-          build.reason = b.reason;
-          build.finishTime = b.finishTime;
-          build.sourcBranch = b.sourceBranch;
-
-          return build;
-        });
-
-        callback(maps);
-      });
-
-
+      return this.getBuilds(client)
+        .then(f => f.slice(0, maxItems));
     });
-
   };
 
-  private requireClient(action: Action<any>): void {
-    const vss = VssNativeHandler.getVss();
-
-    vss.require([this.RESTCLIENT_URL], clientProvider => {
-      debugger;
-      action(clientProvider);
+  private getBuilds(client: any): Promise<VssBuild[]> {
+    return this.getNativeBuilds(client).then((val: any[]) => {
+      const maps = val.map(this.createBuild);
+      return maps;
     });
   }
+
+  private createBuild(nativeBuild: any): VssBuild {
+    const build = new VssBuild();
+    build.requestForUserIdentifier = nativeBuild.requestedFor.uniqueName;
+    build.status = nativeBuild.status;
+    build.reason = nativeBuild.reason;
+    build.finishTime = nativeBuild.finishTime;
+    build.sourcBranch = nativeBuild.sourceBranch;
+
+    return build;
+  }
+
+  private getNativeBuilds(client: any): Promise<any> {
+    const currentUserIdentifier = this.vssUserService.getCurrentUser().uniqueName;
+
+    return client.getBuilds(this.PROJECT_NAME,
+      null, null, null, null, null,
+      currentUserIdentifier,
+      null, null, null, null, null,
+      null, null, null, null, 3);
+  }
+
+  private requireClient(): Promise<any> {
+    const vss = VssNativeHandler.getVss();
+
+    const result = new Promise((resolve: any) => {
+      vss.require([this.RESTCLIENT_URL], clientProvider => {
+        resolve(clientProvider);
+      });
+    });
+
+    return result;
+  }
+
 }

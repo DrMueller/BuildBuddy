@@ -1,7 +1,7 @@
 {
   "manifestVersion": 1,
   "id": "buildbuddy-extension",
-  "version": "0.1.43",
+  "version": "0.1.48",
   "name": "BuildBuddy",
   "description": "Allows all short of shenanigans with VSTS-Builds.",
   "publisher": "DrMueller",
