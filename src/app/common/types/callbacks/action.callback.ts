@@ -1,1 +1,1 @@
-export type Action = () => void;
+export type Action<T> = (...params: T[]) => void;

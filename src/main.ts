@@ -8,6 +8,15 @@ if (environment.production) {
   enableProdMode();
 }
 
+
 document.addEventListener('DOMContentLoaded', () => {
-  platformBrowserDynamic().bootstrapModule(AppModule);
+  const vss = window['VSS'];
+  vss.init({
+    usePlatformScripts: true,
+    explicitNotifyLoaded: true
+  });
+
+  vss.ready(function () {
+    platformBrowserDynamic().bootstrapModule(AppModule);
+  });
 });

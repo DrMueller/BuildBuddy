@@ -1,7 +1,7 @@
 {
   "manifestVersion": 1,
   "id": "buildbuddy-extension",
-  "version": "0.1.9",
+  "version": "0.1.43",
   "name": "BuildBuddy",
   "description": "Allows all short of shenanigans with VSTS-Builds.",
   "publisher": "DrMueller",
@@ -29,7 +29,10 @@
     }
   ],
   "scopes": [
-    "vso.work"
+    "vso.work",
+    "vso.build",
+    "vso.project",
+    "vso.code"
   ],
   "files": [
     {
@@ -41,10 +44,9 @@
       "path": "sdk/VSS.SDK.js",
       "addressable": true
     },
-        {
+    {
       "path": "src/assets/b.png",
       "addressable": true
     }
-
   ]
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { HttpServiceResolverService } from './http';
+import * as vss from './vss';
 import { EnvironmentService } from './environment';
 
 @NgModule({
@@ -10,7 +10,8 @@ import { EnvironmentService } from './environment';
   ],
   declarations: [],
   providers: [
-    HttpServiceResolverService,
+    vss.VssBuildService,
+    vss.VssUserService,
     EnvironmentService
   ]
 })
