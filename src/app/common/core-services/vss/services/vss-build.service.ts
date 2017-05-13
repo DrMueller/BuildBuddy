@@ -6,8 +6,6 @@ import { VssBuild } from '../models';
 import { VssUserService } from '../services/vss-user.service';
 import { VssNativeHandler } from '../infrastructure';
 
-import * as jQuery from 'jquery';
-
 @Injectable()
 export class VssBuildService {
   private readonly WEBPORTAL_BUILD_ID = 7;
@@ -35,10 +33,11 @@ export class VssBuildService {
     const build = new VssBuild();
     build.requestForUserIdentifier = nativeBuild.requestedFor.uniqueName;
     build.status = nativeBuild.status;
-    build.reason = nativeBuild.reason;
+    build.triggerReason = nativeBuild.reason;
     build.finishTime = nativeBuild.finishTime;
     build.sourcBranch = nativeBuild.sourceBranch;
-
+    build.id = nativeBuild.id;
+    build.projectName = nativeBuild.definition.project.name;
     return build;
   }
 

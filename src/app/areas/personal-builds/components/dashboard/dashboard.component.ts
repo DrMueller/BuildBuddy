@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { BuildOverviewService } from '../../services';
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -9,10 +7,9 @@ import { BuildOverviewService } from '../../services';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor(private buildOverviewService: BuildOverviewService) { }
+  constructor() { }
 
   ngOnInit() {
-    this.buildOverviewService.getBuilds();
   }
 
 }

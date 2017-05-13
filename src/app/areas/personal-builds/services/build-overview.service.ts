@@ -7,15 +7,7 @@ export class BuildOverviewService {
 
   constructor(private vssBuildService: VssBuildService) { }
 
-  public getBuilds(): void {
-    this.vssBuildService.getLastBuildsForCurrentUser(3).then((f: VssBuild[]) => {
-      f.forEach(g => {
-        console.debug(g.finishTime);
-        console.debug(g.reason);
-        console.debug(g.requestForUserIdentifier);
-        console.debug(g.sourcBranch);
-        console.debug(g.status);
-      });
-    });
+  public getOverview(): Promise<VssBuild[]> {
+    return this.vssBuildService.getLastBuildsForCurrentUser(10);
   }
 }

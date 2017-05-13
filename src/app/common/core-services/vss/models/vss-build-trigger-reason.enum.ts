@@ -1,4 +1,4 @@
-export enum VssBuildReason {
+export enum VssBuildTriggerReason {
     /**
      * No reason. This value should not be used.
      */

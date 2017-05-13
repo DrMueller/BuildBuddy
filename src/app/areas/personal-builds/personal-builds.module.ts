@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import * as comp from './components';
 import * as serv from './services';
-
 @NgModule({
   exports: [
     comp.PersonalBuildsComponent
@@ -16,6 +15,7 @@ import * as serv from './services';
   ],
   declarations: [
     comp.PersonalBuildsComponent,
-    comp.DashboardComponent]
+    comp.DashboardComponent,
+    comp.BuildsOverviewComponent]
 })
 export class PersonalBuildsModule { }
