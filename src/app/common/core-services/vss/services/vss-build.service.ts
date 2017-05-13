@@ -6,6 +6,8 @@ import { VssBuild } from '../models';
 import { VssUserService } from '../services/vss-user.service';
 import { VssNativeHandler } from '../infrastructure';
 
+import * as jQuery from 'jquery';
+
 @Injectable()
 export class VssBuildService {
   private readonly WEBPORTAL_BUILD_ID = 7;
