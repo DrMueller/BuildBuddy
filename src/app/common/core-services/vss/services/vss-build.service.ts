@@ -1,3 +1,5 @@
+/// <reference path="../../../../../../node_modules/vss-web-extension-sdk/typings/vss.d.ts"/>
+
 import { Injectable } from '@angular/core';
 
 import { Action } from 'app/common/types/callbacks';
@@ -6,15 +8,22 @@ import { VssBuild } from '../models';
 import { VssUserService } from '../services/vss-user.service';
 import { VssNativeHandler } from '../infrastructure';
 
+import { ActivtyStatistic } from 'VSS/VSS';
+
+
 @Injectable()
 export class VssBuildService {
   private readonly WEBPORTAL_BUILD_ID = 7;
   private readonly RESTCLIENT_URL = 'TFS/Build/RestClient';
   private readonly PROJECT_NAME = 'ARGUSNET';
 
+
   constructor(private vssUserService: VssUserService) { }
 
   public getLastBuildsForCurrentUser(maxItems: number): Promise<VssBuild[]> {
+    const tra = VSS.getAccessToken();
+    const t = new ActivtyStatistic();
+
     return this.requireClient().then((cp: any) => {
       const client = cp.getClient();
       return this.getBuilds(client)
